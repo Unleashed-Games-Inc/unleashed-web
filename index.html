@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Haven — A Co-op RPG for Families & Friends | Unleashed Games</title>
+<meta name="description" content="Haven is a cross-platform co-op RPG for families and friends. Explore the fractured world of Athera, rescue the lost, and build something worth protecting. Coming to PC, Mac, Switch, Xbox, PlayStation, iOS & Android.">
+
+<!-- Open Graph / social sharing -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Unleashed Games">
+<meta property="og:title" content="Haven — Forge Friendships to Save the World">
+<meta property="og:description" content="A cross-platform co-op RPG for families and friends. Explore a fractured fantasy world, rescue the lost, and build something worth protecting.">
+<meta property="og:image" content="https://framerusercontent.com/images/yHzg7mePo7J9KMBjWn92DMbpbfE.jpg">
+<meta property="og:url" content="https://unleashedgames.com/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Haven — Forge Friendships to Save the World">
+<meta name="twitter:description" content="A cross-platform co-op RPG for families and friends. Rescue, build, and explore together.">
+<meta name="twitter:image" content="https://framerusercontent.com/images/yHzg7mePo7J9KMBjWn92DMbpbfE.jpg">
+<meta name="theme-color" content="#0A0A0F">
+
+<!-- Favicon (inline SVG monogram; drop a favicon.ico alongside index.html to override) -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230A0A0F'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='42' font-weight='700' fill='%23D4A649' text-anchor='middle'%3EU%3C/text%3E%3C/svg%3E">
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #D4A649;
+    --gold-light: #E8C97A;
+    --gold-dark: #B8892E;
+    --dark-bg: #0A0A0F;
+    --dark-card: #12121A;
+    --dark-surface: #1A1A25;
+    --text-primary: #E8E6E0;
+    --text-secondary: #9B9A94;
+    --accent-teal: #4ECDC4;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--dark-bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ---- NAV ---- */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(10, 10, 15, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(212, 166, 73, 0.15);
+    padding: 0 48px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .nav-logo img {
+    height: 36px;
+    width: auto;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-socials {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .nav-socials a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+
+  .nav-socials a:hover { color: var(--gold); }
+
+  /* Hamburger toggle (hidden on desktop) */
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+  }
+
+  .nav-toggle span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: var(--text-primary);
+    border-radius: 2px;
+    transition: transform 0.25s, opacity 0.25s;
+  }
+
+  .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ---- HERO ---- */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: url('https://framerusercontent.com/images/yHzg7mePo7J9KMBjWn92DMbpbfE.jpg') center top / cover no-repeat;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      rgba(10, 10, 15, 0.35) 0%,
+      rgba(10, 10, 15, 0.2) 30%,
+      rgba(10, 10, 15, 0.45) 65%,
+      rgba(10, 10, 15, 0.95) 100%
+    );
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 0 24px;
+    padding-top: 64px;
+  }
+
+  .hero-credentials {
+    margin-bottom: 36px;
+  }
+
+  .hero-credentials-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+  }
+
+  .hero-logo-strip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+
+  .hero-logo-strip .logo-placeholder {
+    height: 36px;
+    padding: 6px 16px;
+    background: rgba(10, 10, 15, 0.6);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.75);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  }
+
+  .hero-logo-strip .logo-divider {
+    width: 1px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .hero-logo {
+    max-width: 420px;
+    width: 100%;
+    height: auto;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 4px 40px rgba(212, 166, 73, 0.35));
+  }
+
+  .hero-tagline {
+    max-width: 480px;
+    width: 100%;
+    height: auto;
+    margin-bottom: 28px;
+    filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.5));
+  }
+
+  .hero-description {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--text-primary);
+    max-width: 580px;
+    margin: 0 auto 12px;
+    line-height: 1.7;
+    opacity: 0.9;
+  }
+
+  .hero-platforms {
+    font-size: 13px;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+    margin-bottom: 36px;
+  }
+
+  .cta-primary {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color: #0A0A0F;
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 16px 48px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+    box-shadow: 0 4px 24px rgba(212, 166, 73, 0.3);
+  }
+
+  .cta-primary:hover {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    box-shadow: 0 6px 32px rgba(212, 166, 73, 0.5);
+    transform: translateY(-1px);
+  }
+
+  .hero-scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--text-secondary);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.5;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .hero-scroll-hint::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 32px;
+    background: var(--text-secondary);
+    margin: 8px auto 0;
+    opacity: 0.3;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+  }
+
+  /* ---- SIGNUP SECTION (FIRST CTA) ---- */
+  .signup-strip {
+    position: relative;
+    background: var(--dark-card);
+    border-top: 1px solid rgba(212, 166, 73, 0.15);
+    border-bottom: 1px solid rgba(212, 166, 73, 0.15);
+    padding: 48px 48px;
+    text-align: center;
+  }
+
+  .signup-strip h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+  }
+
+  .signup-strip p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+  }
+
+  .signup-form {
+    display: flex;
+    gap: 12px;
+    max-width: 560px;
+    margin: 0 auto;
+    align-items: center;
+  }
+
+  .signup-form input {
+    flex: 1;
+    padding: 14px 18px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .signup-form input:focus {
+    border-color: var(--gold);
+  }
+
+  .signup-form input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.6;
+  }
+
+  .signup-form button {
+    padding: 14px 28px;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color: #0A0A0F;
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.3s;
+  }
+
+  .signup-form button:hover {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  }
+
+  .signup-scarcity {
+    font-size: 12px;
+    color: var(--gold);
+    margin-top: 12px;
+    opacity: 0.8;
+  }
+
+  /* Flodesk embed container — keeps the section on-brand while Flodesk injects its own form */
+  .flodesk-embed {
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  /* ---- SECTION GENERIC ---- */
+  section {
+    position: relative;
+    padding: 96px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+
+  .section-body {
+    font-size: 16px;
+    color: var(--text-secondary);
+    max-width: 640px;
+    line-height: 1.7;
+  }
+
+  /* ---- ABOUT / VIDEO SECTION ---- */
+  .about-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .video-placeholder {
+    aspect-ratio: 16/9;
+    background: var(--dark-surface);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .video-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      url('https://i.ytimg.com/vi_webp/k4JUzVJ0HJ4/maxresdefault.webp') center / cover no-repeat;
+    opacity: 0.7;
+  }
+
+  .play-btn {
+    width: 64px;
+    height: 64px;
+    background: rgba(212, 166, 73, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 4px 24px rgba(212, 166, 73, 0.3);
+  }
+
+  .play-btn::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 0 10px 18px;
+    border-color: transparent transparent transparent #0A0A0F;
+    margin-left: 4px;
+  }
+
+  .stream-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .stream-badge .live-dot {
+    width: 8px;
+    height: 8px;
+    background: #E74C3C;
+    border-radius: 50%;
+    animation: blink 2s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ---- FEATURES ---- */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+  }
+
+  .feature-card {
+    background: var(--dark-card);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 4px;
+    padding: 32px 24px;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .feature-card:hover {
+    border-color: rgba(212, 166, 73, 0.3);
+    transform: translateY(-2px);
+  }
+
+  .feature-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(212, 166, 73, 0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    font-size: 22px;
+  }
+
+  .feature-card h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+
+  .feature-card p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* ---- PLAYTESTS ---- */
+  .playtests-section {
+    position: relative;
+    padding: 96px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .playtests-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 48px;
+  }
+
+  .playtest-featured {
+    position: relative;
+    grid-row: 1 / 3;
+  }
+
+  .playtest-featured .video-embed {
+    aspect-ratio: 16/9;
+    background: var(--dark-surface);
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .playtest-featured .video-embed iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 6px;
+  }
+
+  .video-thumb .play-btn-sm {
+    width: 56px;
+    height: 56px;
+    background: rgba(212, 166, 73, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 4px 20px rgba(212, 166, 73, 0.3);
+  }
+
+  .video-thumb .play-btn-sm::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 8px 0 8px 14px;
+    border-color: transparent transparent transparent #0A0A0F;
+    margin-left: 3px;
+  }
+
+  .video-duration {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--text-primary);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 3px;
+    z-index: 2;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .featured-label {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #0A0A0F;
+    background: var(--gold);
+    padding: 3px 10px;
+    border-radius: 2px;
+    margin-bottom: 10px;
+  }
+
+  .playtest-featured h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-top: 16px;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .playtest-featured .video-meta {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+  }
+
+  .playtest-featured .video-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .playtest-right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* Upcoming playtest card */
+  .playtest-upcoming {
+    background: linear-gradient(135deg, rgba(212, 166, 73, 0.08), rgba(212, 166, 73, 0.03));
+    border: 1px solid rgba(212, 166, 73, 0.25);
+    border-radius: 6px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .upcoming-date {
+    text-align: center;
+    min-width: 64px;
+    flex-shrink: 0;
+  }
+
+  .upcoming-date .day-name {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .upcoming-date .day-num {
+    font-family: 'Cinzel', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1.1;
+  }
+
+  .upcoming-date .month {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .upcoming-details h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+
+  .upcoming-details .upcoming-time {
+    font-size: 13px;
+    color: var(--gold-light);
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+
+  .upcoming-details .upcoming-note {
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  .upcoming-live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(212, 166, 73, 0.3);
+    padding: 3px 10px;
+    border-radius: 3px;
+    margin-bottom: 6px;
+  }
+
+  .upcoming-live-badge .dot {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: blink 1.5s ease-in-out infinite;
+  }
+
+  /* Small video cards */
+  .playtest-card {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    text-decoration: none;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+
+  .playtest-card:hover {
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .playtest-card .thumb-small {
+    width: 160px;
+    min-width: 160px;
+    aspect-ratio: 16/9;
+    background: var(--dark-surface);
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .playtest-card .thumb-small::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      url('https://i.ytimg.com/vi_webp/k4JUzVJ0HJ4/maxresdefault.webp') center / cover no-repeat;
+    opacity: 0.6;
+  }
+
+  .thumb-small .mini-play {
+    width: 28px;
+    height: 28px;
+    background: rgba(212, 166, 73, 0.85);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .playtest-card:hover .mini-play {
+    opacity: 1;
+  }
+
+  .mini-play::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 5px 0 5px 9px;
+    border-color: transparent transparent transparent #0A0A0F;
+    margin-left: 2px;
+  }
+
+  .playtest-card .card-info h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+
+  .playtest-card .card-info .card-meta {
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  .view-all-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gold);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .view-all-link:hover { color: var(--gold-light); }
+
+  .view-all-link::after {
+    content: '\2192';
+    font-size: 15px;
+  }
+
+  /* ---- TEAM ---- */
+  .team-scroll-wrapper {
+    position: relative;
+    margin-top: 48px;
+  }
+
+  .team-scroll {
+    display: flex;
+    gap: 28px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 20px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(212, 166, 73, 0.3) transparent;
+  }
+
+  .team-scroll::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .team-scroll::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 3px;
+  }
+
+  .team-scroll::-webkit-scrollbar-thumb {
+    background: rgba(212, 166, 73, 0.3);
+    border-radius: 3px;
+  }
+
+  .team-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(212, 166, 73, 0.5);
+  }
+
+  .team-card {
+    text-align: center;
+    min-width: 200px;
+    max-width: 200px;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+
+  .team-avatar {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: var(--dark-surface);
+    margin: 0 auto 14px;
+    border: 2px solid rgba(212, 166, 73, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .team-card:hover .team-avatar {
+    border-color: rgba(212, 166, 73, 0.6);
+    box-shadow: 0 0 20px rgba(212, 166, 73, 0.25), 0 0 40px rgba(212, 166, 73, 0.1);
+  }
+
+  .team-card h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+
+  .team-card .role {
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .team-card p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .scroll-hint {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    opacity: 0.5;
+  }
+
+  .scroll-hint::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--text-secondary);
+    opacity: 0.5;
+  }
+
+  .scroll-hint::after {
+    content: '\2192';
+    font-size: 13px;
+  }
+
+  /* ---- SECOND CTA ---- */
+  .cta-section {
+    position: relative;
+    padding: 80px 48px;
+    text-align: center;
+    max-width: 100%;
+    background: var(--dark-card);
+    border-top: 1px solid rgba(212, 166, 73, 0.1);
+  }
+
+  .cta-section .section-title {
+    max-width: 600px;
+    margin: 0 auto 8px;
+  }
+
+  .cta-section .section-body {
+    max-width: 480px;
+    margin: 0 auto 32px;
+  }
+
+  .cta-benefits {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+
+  .cta-benefit {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  .cta-benefit .check {
+    color: var(--gold);
+    font-weight: bold;
+  }
+
+  /* ---- FOOTER ---- */
+  footer {
+    position: relative;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 48px;
+    text-align: center;
+  }
+
+  .footer-logo {
+    margin-bottom: 16px;
+  }
+
+  .footer-logo img {
+    height: 48px;
+    width: auto;
+    opacity: 0.6;
+  }
+
+  .footer-mission {
+    font-size: 14px;
+    color: var(--text-secondary);
+    max-width: 480px;
+    margin: 0 auto 24px;
+    line-height: 1.6;
+    opacity: 0.7;
+  }
+
+  .footer-socials {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .footer-socials a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .footer-socials a:hover { color: var(--gold); }
+
+  .footer-copy {
+    font-size: 12px;
+    color: var(--text-secondary);
+    opacity: 0.4;
+  }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+
+    .nav-toggle { display: flex; }
+
+    .nav-links {
+      position: fixed;
+      top: 64px;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      gap: 0;
+      align-items: stretch;
+      background: rgba(10, 10, 15, 0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(212, 166, 73, 0.15);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .nav-links.open { max-height: 320px; }
+
+    .nav-links li { border-top: 1px solid rgba(255, 255, 255, 0.06); }
+
+    .nav-links a {
+      display: block;
+      padding: 16px 20px;
+      font-size: 14px;
+    }
+
+    .nav-socials { display: none; }
+
+    section, .playtests-section { padding: 64px 24px; }
+
+    .about-section { grid-template-columns: 1fr; gap: 32px; }
+
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .playtests-layout { grid-template-columns: 1fr; }
+
+    .playtest-featured { grid-row: auto; }
+
+    .section-title { font-size: 30px; }
+  }
+
+  @media (max-width: 600px) {
+    .signup-strip { padding: 40px 20px; }
+
+    .signup-form { flex-direction: column; align-items: stretch; }
+
+    .signup-form button { width: 100%; }
+
+    .features-grid { grid-template-columns: 1fr; }
+
+    .hero-description { font-size: 16px; }
+
+    .hero-platforms { font-size: 12px; }
+
+    .cta-primary { padding: 15px 32px; font-size: 14px; letter-spacing: 1.5px; }
+
+    .section-title { font-size: 26px; }
+
+    .cta-benefits { gap: 16px 28px; }
+
+    .playtest-card .thumb-small { width: 120px; min-width: 120px; }
+
+    footer { padding: 40px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#top" class="nav-logo" aria-label="Unleashed Games home">
+    <img src="https://images.squarespace-cdn.com/content/v1/636ec7b527416e2931550aea/07c38ca1-0f0d-4ccc-938d-04652e65b8ad/Unleashed+-+wordmark+-+light%400.5x.png?format=300w" alt="Unleashed Games">
+  </a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#game">Game</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#playtests">Playtests</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#signup-bottom">Newsletter</a></li>
+  </ul>
+  <div class="nav-socials">
+    <!-- TODO: replace # with real profile URLs -->
+    <a href="#" aria-label="LinkedIn" title="LinkedIn">in</a>
+    <a href="https://www.youtube.com/@UnleashedGG" aria-label="YouTube" title="YouTube" target="_blank" rel="noopener">YT</a>
+    <a href="#" aria-label="Discord" title="Discord">DC</a>
+    <a href="#" aria-label="Twitter / X" title="Twitter / X">TW</a>
+  </div>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="game">
+  <span id="top"></span>
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-credentials">
+      <p class="hero-credentials-label">From the developers of</p>
+      <div class="hero-logo-strip">
+        <div class="logo-placeholder">World of Warcraft</div>
+        <div class="logo-divider"></div>
+        <div class="logo-placeholder">RuneScape</div>
+        <div class="logo-divider"></div>
+        <div class="logo-placeholder">The Witcher</div>
+        <div class="logo-divider"></div>
+        <div class="logo-placeholder">Monopoly GO!</div>
+      </div>
+    </div>
+    <img src="https://framerusercontent.com/images/DYJpqg2Goon6Fp6LYrAvtOlPxE.png" alt="Haven" class="hero-logo">
+    <br>
+    <img src="https://framerusercontent.com/images/ROPmjKquijUmCxmzPLrOOQHvKg.png" alt="Forge Friendships to Save the World" class="hero-tagline">
+    <p class="hero-description">
+      A cross-platform co-op RPG for families and friends. Explore a fractured fantasy world, rescue the lost, and build something worth protecting.
+    </p>
+    <p class="hero-platforms">PC &middot; Mac &middot; Switch &middot; Xbox &middot; PlayStation &middot; iOS &middot; Android</p>
+    <a href="#signup-top" class="cta-primary">Become a Founding Player</a>
+  </div>
+  <div class="hero-scroll-hint">Scroll</div>
+</section>
+
+<!-- INLINE SIGNUP -->
+<div class="signup-strip" id="signup-top">
+  <h2>Be one of the first 1,000 players to experience Haven</h2>
+  <p>Early alpha access, playtest invites, and development updates. No spam.</p>
+  <!-- FLODESK: paste your inline embed inside .flodesk-embed and delete the placeholder form below -->
+  <div class="flodesk-embed">
+    <form class="signup-form" onsubmit="return false;">
+      <input type="text" placeholder="First name" aria-label="First name">
+      <input type="email" placeholder="Email address" aria-label="Email address">
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+  <p class="signup-scarcity">Join a growing community of founding players &mdash; spots are limited</p>
+</div>
+
+<!-- ABOUT + VIDEO -->
+<section id="about">
+  <div class="about-section">
+    <div>
+      <p class="section-label">Welcome to Athera</p>
+      <h2 class="section-title">The world we once knew has been lost to shadow</h2>
+      <p class="section-body">
+        Athera is a fractured world of Shard Isles surrounded by shifting, dangerous Shadow Lands. Explore mysterious ruins, fight corrupted creatures, rescue lost souls, and build thriving villages with your friends and family. The deeper you go together, the stronger you all become.
+      </p>
+      <p class="section-body" style="margin-top: 16px;">
+        If you grew up raiding in EverQuest or WoW and wish you could share that feeling with your kids, your partner, or your friends across the country, Haven is built for you. Short sessions. Every platform. No toxicity by design.
+      </p>
+      <p class="section-body" style="margin-top: 16px; font-size: 13px; color: var(--gold); opacity: 0.8;">
+        Early Access 2027 &middot; Short, session-friendly play &middot; Family &amp; couples pricing
+      </p>
+      <a href="#playtests" class="stream-badge" style="text-decoration:none;">
+        <span class="live-dot"></span>
+        <span>Watch our weekly playtests &darr;</span>
+      </a>
+    </div>
+    <div>
+      <a class="video-placeholder" href="https://www.youtube.com/@UnleashedGG" target="_blank" rel="noopener" aria-label="Watch on YouTube">
+        <div class="play-btn"></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <p class="section-label">What Makes Haven Different</p>
+  <h2 class="section-title">Not your typical MMO</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">&#x2694;</div>
+      <h3>Rescue, Don't Kill</h3>
+      <p>Corrupted enemies can be freed from the Shadow and brought back to your village. They bring skills, knowledge, and power with them. The people who fought you become the people who make you stronger.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">&#x1F3D7;</div>
+      <h3>Build Your Village</h3>
+      <p>Your village is the heart of the game. Grow it from a homestead into a thriving community. Recruit NPCs, craft, build, and unlock new abilities as your village levels up alongside you.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">&#x1F30D;</div>
+      <h3>Explore the Shadow Lands</h3>
+      <p>Venture into a shifting wilderness where distance behaves strangely and forgotten places wait to be reclaimed. Procedurally generated terrain means no two expeditions are the same.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">&#x1F4F1;</div>
+      <h3>Every Platform, One World</h3>
+      <p>PC, Mac, Switch, Xbox, PlayStation, iOS, Android. Dad's on console, the kids are on tablets, you're on PC. Same world. Same adventure. Your progress persists when you log off.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PLAYTESTS -->
+<section class="playtests-section" id="playtests">
+  <p class="section-label">Watch Us Build Haven</p>
+  <h2 class="section-title">Weekly playtests, live on stream</h2>
+  <p class="section-body">Every Friday we open the doors and play Haven live with our community. Watch the latest session, catch up on past playtests, or mark your calendar for the next one.</p>
+
+  <div class="playtests-layout">
+    <!-- FEATURED / TRAILER -->
+    <div class="playtest-featured">
+      <span class="featured-label">Official Trailer</span>
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/IwoiLC1qtj4" title="Haven - Official Trailer" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <h3>Haven &mdash; Official Game Trailer</h3>
+      <p class="video-meta">Unleashed Games</p>
+      <p class="video-desc">A cooperative online RPG where you rescue, build, and explore with friends. Coming to PC, Mac, console, and mobile.</p>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="playtest-right">
+
+      <!-- UPCOMING — update weekly -->
+      <div class="playtest-upcoming">
+        <div class="upcoming-date">
+          <div class="day-name">Fri</div>
+          <div class="day-num">17</div>
+          <div class="month">Jul</div>
+        </div>
+        <div class="upcoming-details">
+          <div class="upcoming-live-badge"><span class="dot"></span> Next Stream</div>
+          <h4>Weekly Community Playtest</h4>
+          <p class="upcoming-time">2:00 PM ET / 11:00 AM PT</p>
+          <p class="upcoming-note">Live on Twitch &amp; YouTube &mdash; jump in and play with us</p>
+        </div>
+      </div>
+
+      <!-- RECENT PLAYTEST 1 -->
+      <a class="playtest-card" href="https://www.youtube.com/@UnleashedGG/streams" target="_blank" rel="noopener">
+        <div class="thumb-small">
+          <div class="mini-play"></div>
+          <span class="video-duration">52:26</span>
+        </div>
+        <div class="card-info">
+          <h4>Playtest Haven with Joe Mirabello of Terrible Posture Games!</h4>
+          <p class="card-meta">Streamed live</p>
+        </div>
+      </a>
+
+      <!-- RECENT PLAYTEST 2 -->
+      <a class="playtest-card" href="https://www.youtube.com/@UnleashedGG/streams" target="_blank" rel="noopener">
+        <div class="thumb-small">
+          <div class="mini-play"></div>
+          <span class="video-duration">1:05:10</span>
+        </div>
+        <div class="card-info">
+          <h4>Unleashed Prototype Playtest live with SiteB Entertainment!</h4>
+          <p class="card-meta">Streamed live</p>
+        </div>
+      </a>
+
+      <!-- RECENT PLAYTEST 3 -->
+      <a class="playtest-card" href="https://www.youtube.com/@UnleashedGG/streams" target="_blank" rel="noopener">
+        <div class="thumb-small">
+          <div class="mini-play"></div>
+          <span class="video-duration">49:48</span>
+        </div>
+        <div class="card-info">
+          <h4>Unleashed Games &mdash; Playtest June 7, 2024</h4>
+          <p class="card-meta">Streamed live</p>
+        </div>
+      </a>
+
+      <a href="https://www.youtube.com/@UnleashedGG" class="view-all-link" target="_blank" rel="noopener">View all playtests on YouTube</a>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <p class="section-label">The Studio</p>
+  <h2 class="section-title">100+ years of combined game dev experience</h2>
+  <p class="section-body">We've shipped World of Warcraft, RuneScape, The Witcher, Monopoly Go!, and dozens of other titles across PC, console, and mobile. Now we're making the cooperative RPG we always wished existed.</p>
+  <div class="team-scroll-wrapper">
+    <div class="team-scroll">
+      <div class="team-card">
+        <div class="team-avatar">IP</div>
+        <h3>Irena Pereira</h3>
+        <p class="role">CEO &amp; Creative Director</p>
+        <p>27 years shipping games on PC and mobile. The vision behind Haven.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">GR</div>
+        <h3>Gene Rosenberg</h3>
+        <p class="role">COO &amp; Lead Audio</p>
+        <p>Operations leadership meets audio design. Building the sound of Athera.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">JW</div>
+        <h3>Jennifer Williamson</h3>
+        <p class="role">Lead Producer</p>
+        <p>Senior game dev leader with a love of stories, systems, and shipping on time.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">JH</div>
+        <h3>Jason Hutchins</h3>
+        <p class="role">Production Director</p>
+        <p>Veteran producer and game developer keeping Haven on track from prototype to launch.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">TA</div>
+        <h3>Thom Ang</h3>
+        <p class="role">Art Director</p>
+        <p>Defining the visual identity of Athera, from Shard Isles to Shadow Lands.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">JS</div>
+        <h3>Jan Szymanski</h3>
+        <p class="role">Tech Art Director</p>
+        <p>Bridging art and engineering to bring Athera's world to life across every platform.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">FH</div>
+        <h3>Frank Holstein</h3>
+        <p class="role">Game Designer</p>
+        <p>Designer of Haven's core systems. Career started with curiosity and a controller.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">CC</div>
+        <h3>Chris Carlisle</h3>
+        <p class="role">Engineering</p>
+        <p>The technical foundation underneath everything. Making cross-platform play work.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">MK</div>
+        <h3>Matthew Kinney</h3>
+        <p class="role">Marketing</p>
+        <p>Getting Haven in front of the players who need it most.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">OW</div>
+        <h3>Ollie Wilkinson</h3>
+        <p class="role">Head of Quality</p>
+        <p>Champions quality across every feature and experience players touch.</p>
+      </div>
+    </div>
+    <div class="scroll-hint">Scroll for more</div>
+  </div>
+</section>
+
+<!-- SECOND CTA -->
+<div class="cta-section" id="signup-bottom">
+  <h2 class="section-title">Ready to join the adventure?</h2>
+  <p class="section-body">Sign up today and secure your spot as a Founding Player.</p>
+  <div class="cta-benefits">
+    <div class="cta-benefit"><span class="check">&#10003;</span> Early alpha playtests</div>
+    <div class="cta-benefit"><span class="check">&#10003;</span> Development updates</div>
+    <div class="cta-benefit"><span class="check">&#10003;</span> Discord access</div>
+    <div class="cta-benefit"><span class="check">&#10003;</span> Founding Player status</div>
+  </div>
+  <a href="#signup-top" class="cta-primary">Become a Founding Player</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <img src="https://images.squarespace-cdn.com/content/v1/636ec7b527416e2931550aea/92b91afd-bdb8-4199-b4b7-f7277040960d/Unleashed+-+Light%400.5x.png?format=300w" alt="Unleashed Games">
+  </div>
+  <p class="footer-mission">Co-op games for families who play together.</p>
+  <div class="footer-socials">
+    <!-- TODO: replace # with real profile URLs -->
+    <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://www.youtube.com/@UnleashedGG" target="_blank" rel="noopener">YouTube</a>
+    <a href="#" target="_blank" rel="noopener">Facebook</a>
+    <a href="#" target="_blank" rel="noopener">Discord</a>
+    <a href="#" target="_blank" rel="noopener">Twitch</a>
+  </div>
+  <p class="footer-copy">TM &amp; &copy; 2026 Unleashed Games. All Rights Reserved.</p>
+</footer>
+
+<script>
+  // Mobile nav toggle
+  (function () {
+    var toggle = document.getElementById('nav-toggle');
+    var links = document.getElementById('nav-links');
+    if (!toggle || !links) return;
+    toggle.addEventListener('click', function () {
+      var open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    links.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        links.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
