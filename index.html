@@ -23,7 +23,42 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230A0A0F'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='42' font-weight='700' fill='%23D4A649' text-anchor='middle'%3EU%3C/text%3E%3C/svg%3E">
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+  /* ---- BRAND FONTS ---- */
+  @font-face {
+    font-family: 'Trajan Pro';
+    src: url('fonts/TrajanPro-Regular.otf') format('opentype');
+    font-weight: 400 600;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Trajan Pro';
+    src: url('fonts/TrajanPro-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Carter Sans';
+    src: url('fonts/CarterSans-Regular.otf') format('opentype');
+    font-weight: 300 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Carter Sans';
+    src: url('fonts/CarterSans-Bold.otf') format('opentype');
+    font-weight: 600 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Carter Sans';
+    src: url('fonts/CarterSans-BoldItalic.otf') format('opentype');
+    font-weight: 600 700;
+    font-style: italic;
+    font-display: swap;
+  }
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -42,7 +77,7 @@
   html { scroll-behavior: smooth; }
 
   body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Carter Sans', sans-serif;
     background: var(--dark-bg);
     color: var(--text-primary);
     line-height: 1.6;
@@ -258,7 +293,7 @@
     display: inline-block;
     background: linear-gradient(135deg, var(--gold-dark), var(--gold));
     color: #0A0A0F;
-    font-family: 'Cinzel', serif;
+    font-family: 'Trajan Pro', serif;
     font-size: 15px;
     font-weight: 700;
     letter-spacing: 2px;
@@ -317,7 +352,7 @@
   }
 
   .signup-strip h2 {
-    font-family: 'Cinzel', serif;
+    font-family: 'Trajan Pro', serif;
     font-size: 22px;
     font-weight: 600;
     color: var(--text-primary);
@@ -345,7 +380,7 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 2px;
     color: var(--text-primary);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Carter Sans', sans-serif;
     font-size: 14px;
     outline: none;
     transition: border-color 0.2s;
@@ -364,7 +399,7 @@
     padding: 14px 28px;
     background: linear-gradient(135deg, var(--gold-dark), var(--gold));
     color: #0A0A0F;
-    font-family: 'Cinzel', serif;
+    font-family: 'Trajan Pro', serif;
     font-size: 13px;
     font-weight: 700;
     letter-spacing: 1.5px;
@@ -411,7 +446,7 @@
   }
 
   .section-title {
-    font-family: 'Cinzel', serif;
+    font-family: 'Trajan Pro', serif;
     font-size: 36px;
     font-weight: 600;
     color: var(--text-primary);
@@ -539,7 +574,7 @@
   }
 
   .feature-card h3 {
-    font-family: 'Cinzel', serif;
+    font-family: 'Trajan Pro', serif;
     font-size: 16px;
     font-weight: 600;
     color: var(--text-primary);
@@ -623,7 +658,7 @@
     padding: 2px 6px;
     border-radius: 3px;
     z-index: 2;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Carter Sans', sans-serif;
   }
 
   .featured-label {
@@ -640,7 +675,7 @@
   }
 
   .playtest-featured h3 {
-    font-family: 'Cinzel', serif;
+    font-family: 'Trajan Pro', serif;
     font-size: 20px;
     font-weight: 600;
     color: var(--text-primary);
@@ -693,7 +728,7 @@
   }
 
   .upcoming-date .day-num {
-    font-family: 'Cinzel', serif;
+    font-family: 'Trajan Pro', serif;
     font-size: 32px;
     font-weight: 700;
     color: var(--gold);
@@ -709,7 +744,7 @@
   }
 
   .upcoming-details h4 {
-    font-family: 'Cinzel', serif;
+    font-family: 'Trajan Pro', serif;
     font-size: 15px;
     font-weight: 600;
     color: var(--text-primary);
@@ -819,7 +854,7 @@
   }
 
   .playtest-card .card-info h4 {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Carter Sans', sans-serif;
     font-size: 14px;
     font-weight: 600;
     color: var(--text-primary);
@@ -906,7 +941,7 @@
     justify-content: center;
     font-size: 32px;
     color: var(--gold);
-    font-family: 'Cinzel', serif;
+    font-family: 'Trajan Pro', serif;
     transition: border-color 0.3s, box-shadow 0.3s;
   }
 
@@ -916,7 +951,7 @@
   }
 
   .team-card h3 {
-    font-family: 'Cinzel', serif;
+    font-family: 'Trajan Pro', serif;
     font-size: 15px;
     font-weight: 600;
     color: var(--text-primary);
@@ -1176,7 +1211,7 @@
       A cross-platform co-op RPG for families and friends. Explore a fractured fantasy world, rescue the lost, and build something worth protecting.
     </p>
     <p class="hero-platforms">PC &middot; Mac &middot; Switch &middot; Xbox &middot; PlayStation &middot; iOS &middot; Android</p>
-    <a href="#signup-top" class="cta-primary">Become a Founding Player</a>
+    <a href="https://unleashedgames.myflodesk.com/haven-alpha" class="cta-primary" target="_blank" rel="noopener">Become a Founding Player</a>
   </div>
   <div class="hero-scroll-hint">Scroll</div>
 </section>
@@ -1185,14 +1220,7 @@
 <div class="signup-strip" id="signup-top">
   <h2>Be one of the first 1,000 players to experience Haven</h2>
   <p>Early alpha access, playtest invites, and development updates. No spam.</p>
-  <!-- FLODESK: paste your inline embed inside .flodesk-embed and delete the placeholder form below -->
-  <div class="flodesk-embed">
-    <form class="signup-form" onsubmit="return false;">
-      <input type="text" placeholder="First name" aria-label="First name">
-      <input type="email" placeholder="Email address" aria-label="Email address">
-      <button type="submit">Sign Up</button>
-    </form>
-  </div>
+  <a href="https://unleashedgames.myflodesk.com/haven-alpha" class="cta-primary" target="_blank" rel="noopener">Join the Community</a>
   <p class="signup-scarcity">Join a growing community of founding players &mdash; spots are limited</p>
 </div>
 
@@ -1411,7 +1439,7 @@
     <div class="cta-benefit"><span class="check">&#10003;</span> Discord access</div>
     <div class="cta-benefit"><span class="check">&#10003;</span> Founding Player status</div>
   </div>
-  <a href="#signup-top" class="cta-primary">Become a Founding Player</a>
+  <a href="https://unleashedgames.myflodesk.com/haven-alpha" class="cta-primary" target="_blank" rel="noopener">Become a Founding Player</a>
 </div>
 
 <!-- FOOTER -->
