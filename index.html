@@ -822,9 +822,16 @@
     content: '';
     position: absolute;
     inset: 0;
-    background:
-      url('https://i.ytimg.com/vi_webp/k4JUzVJ0HJ4/maxresdefault.webp') center / cover no-repeat;
-    opacity: 0.6;
+    background: linear-gradient(135deg, var(--dark-surface), #23232f);
+  }
+
+  .playtest-card .thumb-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
   }
 
   .thumb-small .mini-play {
@@ -1327,41 +1334,10 @@
         </div>
       </div>
 
-      <!-- RECENT PLAYTEST 1 -->
-      <a class="playtest-card" href="https://www.youtube.com/@UnleashedGG/streams" target="_blank" rel="noopener">
-        <div class="thumb-small">
-          <div class="mini-play"></div>
-          <span class="video-duration">52:26</span>
-        </div>
-        <div class="card-info">
-          <h4>Playtest Haven with Joe Mirabello of Terrible Posture Games!</h4>
-          <p class="card-meta">Streamed live</p>
-        </div>
-      </a>
-
-      <!-- RECENT PLAYTEST 2 -->
-      <a class="playtest-card" href="https://www.youtube.com/@UnleashedGG/streams" target="_blank" rel="noopener">
-        <div class="thumb-small">
-          <div class="mini-play"></div>
-          <span class="video-duration">1:05:10</span>
-        </div>
-        <div class="card-info">
-          <h4>Unleashed Prototype Playtest live with SiteB Entertainment!</h4>
-          <p class="card-meta">Streamed live</p>
-        </div>
-      </a>
-
-      <!-- RECENT PLAYTEST 3 -->
-      <a class="playtest-card" href="https://www.youtube.com/@UnleashedGG/streams" target="_blank" rel="noopener">
-        <div class="thumb-small">
-          <div class="mini-play"></div>
-          <span class="video-duration">49:48</span>
-        </div>
-        <div class="card-info">
-          <h4>Unleashed Games &mdash; Playtest June 7, 2024</h4>
-          <p class="card-meta">Streamed live</p>
-        </div>
-      </a>
+      <!-- RECENT VIDEOS — auto-populated from videos.json (refreshed by .github/workflows/youtube-feed.yml) -->
+      <div id="recent-videos" data-count="3">
+        <noscript><p class="card-meta" style="padding:4px;">Watch our latest playtests on <a href="https://www.youtube.com/@UnleashedGG" style="color:var(--gold);">YouTube</a>.</p></noscript>
+      </div>
 
       <a href="https://www.youtube.com/@UnleashedGG" class="view-all-link" target="_blank" rel="noopener">View all playtests on YouTube</a>
     </div>
@@ -1485,6 +1461,41 @@
         toggle.setAttribute('aria-expanded', 'false');
       });
     });
+  })();
+
+  // Latest YouTube videos — rendered from videos.json (kept fresh by the youtube-feed GitHub Action)
+  (function () {
+    var host = document.getElementById('recent-videos');
+    if (!host || !window.fetch) return;
+    var count = parseInt(host.getAttribute('data-count'), 10) || 3;
+    function esc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+      });
+    }
+    function fmtDate(iso) {
+      var d = new Date(iso);
+      return isNaN(d) ? '' : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+    fetch('videos.json', { cache: 'no-cache' })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (data) {
+        var vids = ((data && data.videos) || []).slice(0, count);
+        if (!vids.length) return;
+        host.innerHTML = vids.map(function (v) {
+          return '<a class="playtest-card" href="' + esc(v.url) + '" target="_blank" rel="noopener">' +
+              '<div class="thumb-small">' +
+                '<img class="thumb-img" src="' + esc(v.thumb) + '" alt="" loading="lazy">' +
+                '<div class="mini-play"></div>' +
+              '</div>' +
+              '<div class="card-info">' +
+                '<h4>' + esc(v.title) + '</h4>' +
+                '<p class="card-meta">' + esc(fmtDate(v.published)) + '</p>' +
+              '</div>' +
+            '</a>';
+        }).join('');
+      })
+      .catch(function () { /* keep the noscript/fallback content on any error */ });
   })();
 </script>
 
