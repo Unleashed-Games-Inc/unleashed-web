@@ -202,12 +202,17 @@
   .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg,
-      rgba(10, 10, 15, 0.35) 0%,
-      rgba(10, 10, 15, 0.2) 30%,
-      rgba(10, 10, 15, 0.45) 65%,
-      rgba(10, 10, 15, 0.95) 100%
-    );
+    background:
+      /* targeted scrim behind the credentials strip (over the bright sky) */
+      radial-gradient(100% 55% at 50% 8%, rgba(10, 10, 15, 0.55), rgba(10, 10, 15, 0) 65%),
+      /* overall vertical readability gradient — clear in the middle for the art */
+      linear-gradient(180deg,
+        rgba(10, 10, 15, 0.45) 0%,
+        rgba(10, 10, 15, 0.28) 28%,
+        rgba(10, 10, 15, 0.30) 52%,
+        rgba(10, 10, 15, 0.72) 82%,
+        rgba(10, 10, 15, 0.97) 100%
+      );
   }
 
   .hero-content {
@@ -223,13 +228,13 @@
   }
 
   .hero-credentials-label {
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 600;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: var(--text-secondary);
-    margin-bottom: 14px;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+    color: rgba(232, 230, 224, 0.85);
+    margin-bottom: 16px;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95);
   }
 
   .hero-logo-strip {
@@ -243,8 +248,8 @@
   .hero-logo-strip .game-logo {
     height: 40px;
     width: auto;
-    opacity: 0.9;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.55));
+    opacity: 1;
+    filter: drop-shadow(0 2px 7px rgba(0, 0, 0, 0.85));
     transition: opacity 0.3s, transform 0.3s;
   }
 
@@ -277,19 +282,20 @@
 
   .hero-description {
     font-size: 18px;
-    font-weight: 300;
+    font-weight: 400;
     color: var(--text-primary);
     max-width: 580px;
-    margin: 0 auto 12px;
+    margin: 0 auto 14px;
     line-height: 1.7;
-    opacity: 0.9;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.75);
   }
 
   .hero-platforms {
     font-size: 13px;
-    color: var(--text-secondary);
+    color: rgba(232, 230, 224, 0.7);
     letter-spacing: 0.5px;
     margin-bottom: 36px;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85);
   }
 
   .cta-primary {
