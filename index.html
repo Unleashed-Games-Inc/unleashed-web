@@ -232,22 +232,17 @@
     flex-wrap: wrap;
   }
 
-  .hero-logo-strip .logo-placeholder {
-    height: 36px;
-    padding: 6px 16px;
-    background: rgba(10, 10, 15, 0.6);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.75);
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  .hero-logo-strip .game-logo {
+    height: 40px;
+    width: auto;
+    opacity: 0.9;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.55));
+    transition: opacity 0.3s, transform 0.3s;
+  }
+
+  .hero-logo-strip .game-logo:hover {
+    opacity: 1;
+    transform: translateY(-1px);
   }
 
   .hero-logo-strip .logo-divider {
@@ -1194,13 +1189,11 @@
     <div class="hero-credentials">
       <p class="hero-credentials-label">From the developers of</p>
       <div class="hero-logo-strip">
-        <div class="logo-placeholder">World of Warcraft</div>
-        <div class="logo-divider"></div>
-        <div class="logo-placeholder">RuneScape</div>
-        <div class="logo-divider"></div>
-        <div class="logo-placeholder">The Witcher</div>
-        <div class="logo-divider"></div>
-        <div class="logo-placeholder">Monopoly GO!</div>
+        <!-- WoW & RuneScape: re-drop files as assets/logo-wow.png and assets/logo-runescape.png; hidden until present -->
+        <img src="assets/logo-wow.png" alt="World of Warcraft" class="game-logo" onerror="this.style.display='none'">
+        <img src="assets/logo-runescape.png" alt="RuneScape" class="game-logo" onerror="this.style.display='none'">
+        <img src="assets/logo-witcher.png" alt="The Witcher 3: Wild Hunt" class="game-logo">
+        <img src="assets/logo-monopolygo.png" alt="Monopoly GO!" class="game-logo">
       </div>
     </div>
     <img src="assets/logo-haven.png" alt="Haven" class="hero-logo" width="2652" height="1414">
