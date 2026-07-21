@@ -1,15 +1,8 @@
 {
   "channel": "UC2Oql-KGdR_DFOON-tVIPBQ",
-  "updated": "2026-07-21T14:27:51Z",
+  "updated": "2026-07-21T19:55:38Z",
   "count": 12,
   "videos": [
-    {
-      "id": "-cvoxZIrGr8",
-      "title": "She Was Fine Until She Clicked It",
-      "published": "2026-06-16T13:27:56+00:00",
-      "thumb": "https://i.ytimg.com/vi/-cvoxZIrGr8/hqdefault.jpg",
-      "url": "https://www.youtube.com/watch?v=-cvoxZIrGr8"
-    },
     {
       "id": "8mDbRDBHcu8",
       "title": "Haven Weekly Playtest with Scott Cuthbertson",
@@ -86,6 +79,13 @@
       "published": "2026-04-08T22:00:05+00:00",
       "thumb": "https://i.ytimg.com/vi/ma81oCC9SzE/hqdefault.jpg",
       "url": "https://www.youtube.com/watch?v=ma81oCC9SzE"
+    },
+    {
+      "id": "AyGAR9FM8o0",
+      "title": "Haven Weekly Playtest with Lenay Olsen @Lenayiskindofcool !",
+      "published": "2026-04-04T07:41:02+00:00",
+      "thumb": "https://i.ytimg.com/vi/AyGAR9FM8o0/hqdefault.jpg",
+      "url": "https://www.youtube.com/watch?v=AyGAR9FM8o0"
     }
   ]
 }
