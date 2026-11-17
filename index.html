@@ -506,26 +506,35 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 44px;
-    height: 44px;
+    width: 46px;
+    height: 46px;
     border-radius: 50%;
-    border: 1px solid rgba(212, 166, 73, 0.4);
-    background: rgba(10, 10, 15, 0.7);
-    backdrop-filter: blur(6px);
+    border: 1px solid rgba(212, 166, 73, 0.5);
+    background: rgba(10, 10, 15, 0.5);
+    backdrop-filter: blur(8px);
     color: var(--gold);
-    font-size: 26px;
-    line-height: 1;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s, border-color 0.2s;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    transition: background 0.25s, border-color 0.25s, color 0.25s, transform 0.25s, box-shadow 0.25s;
     z-index: 2;
   }
 
-  .carousel-btn:hover { background: rgba(212, 166, 73, 0.2); border-color: var(--gold); }
-  .carousel-btn.prev { left: 12px; }
-  .carousel-btn.next { right: 12px; }
+  .carousel-btn svg { width: 20px; height: 20px; display: block; }
+
+  .carousel-btn:hover {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
+    border-color: var(--gold-light);
+    color: #0A0A0F;
+    transform: translateY(-50%) scale(1.08);
+    box-shadow: 0 6px 24px rgba(212, 166, 73, 0.5);
+  }
+
+  .carousel-btn:active { transform: translateY(-50%) scale(0.97); }
+  .carousel-btn.prev { left: 14px; }
+  .carousel-btn.next { right: 14px; }
 
   .carousel-dots {
     display: flex;
@@ -1486,8 +1495,8 @@
         <img src="assets/screens/screen-classes.webp" alt="Choosing a character class in Haven" loading="lazy">
         <img src="assets/screens/screen-character-create.webp" alt="The Haven character creation screen" loading="lazy">
       </div>
-      <button class="carousel-btn prev" type="button" aria-label="Previous screenshot">&lsaquo;</button>
-      <button class="carousel-btn next" type="button" aria-label="Next screenshot">&rsaquo;</button>
+      <button class="carousel-btn prev" type="button" aria-label="Previous screenshot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <button class="carousel-btn next" type="button" aria-label="Next screenshot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
     </div>
     <div class="carousel-dots" role="tablist" aria-label="Choose screenshot"></div>
   </div>
