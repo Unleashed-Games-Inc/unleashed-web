@@ -265,7 +265,7 @@
   }
 
   .hero-logo {
-    max-width: 420px;
+    max-width: 560px;
     width: 100%;
     height: auto;
     margin-bottom: 8px;
@@ -472,11 +472,35 @@
 
   /* ---- ABOUT / VIDEO SECTION ---- */
   .about-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 64px;
-    align-items: center;
+    max-width: 760px;
   }
+
+  .screens-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 48px;
+  }
+
+  .screen-item {
+    display: block;
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--dark-surface);
+  }
+
+  .screen-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  .screen-item:hover img { transform: scale(1.05); }
 
   .video-placeholder {
     aspect-ratio: 16/9;
@@ -495,8 +519,8 @@
     position: absolute;
     inset: 0;
     background:
-      url('https://i.ytimg.com/vi_webp/k4JUzVJ0HJ4/maxresdefault.webp') center / cover no-repeat;
-    opacity: 0.7;
+      radial-gradient(120% 120% at 30% 20%, rgba(212, 166, 73, 0.14), rgba(212, 166, 73, 0) 55%),
+      linear-gradient(135deg, var(--dark-surface), #15151f);
   }
 
   .play-btn {
@@ -1240,14 +1264,7 @@
 </section>
 
 <!-- INLINE SIGNUP -->
-<div class="signup-strip" id="signup-top">
-  <h2>Be one of the first 1,000 players to experience Haven</h2>
-  <p>Early alpha access, playtest invites, and development updates. No spam.</p>
-  <a href="https://play.immutable.com/games/haven/" class="cta-primary" target="_blank" rel="noopener">Join the Community</a>
-  <p class="signup-scarcity">Join a growing community of founding players &mdash; spots are limited</p>
-</div>
-
-<!-- ABOUT + VIDEO -->
+<!-- ABOUT -->
 <section id="about">
   <div class="about-section">
     <div>
@@ -1265,11 +1282,6 @@
       <a href="#playtests" class="stream-badge" style="text-decoration:none;">
         <span class="live-dot"></span>
         <span>Watch Haven in action &darr;</span>
-      </a>
-    </div>
-    <div>
-      <a class="video-placeholder" href="https://www.youtube.com/@UnleashedGG" target="_blank" rel="noopener" aria-label="Watch on YouTube">
-        <div class="play-btn"></div>
       </a>
     </div>
   </div>
@@ -1300,6 +1312,20 @@
       <h3>Every Platform, One World</h3>
       <p>PC, Mac, Switch, Xbox, PlayStation, iOS, Android. Dad's on console, the kids are on tablets, you're on PC. Same world. Same adventure. Your progress persists when you log off.</p>
     </div>
+  </div>
+</section>
+
+<!-- SCREENSHOTS -->
+<section id="screens">
+  <p class="section-label">See the World</p>
+  <h2 class="section-title">Screenshots from Haven</h2>
+  <div class="screens-grid">
+    <a class="screen-item" href="assets/screens/screen-cottage.webp" target="_blank" rel="noopener"><img src="assets/screens/screen-cottage.webp" alt="A lantern-lit cottage at dusk in Haven" loading="lazy"></a>
+    <a class="screen-item" href="assets/screens/screen-coop.webp" target="_blank" rel="noopener"><img src="assets/screens/screen-coop.webp" alt="A co-op party gathered by a crystal in Haven" loading="lazy"></a>
+    <a class="screen-item" href="assets/screens/screen-ability.webp" target="_blank" rel="noopener"><img src="assets/screens/screen-ability.webp" alt="A mage casting an ability in the desert" loading="lazy"></a>
+    <a class="screen-item" href="assets/screens/screen-lanterns.webp" target="_blank" rel="noopener"><img src="assets/screens/screen-lanterns.webp" alt="A misty forest path lit by lanterns" loading="lazy"></a>
+    <a class="screen-item" href="assets/screens/screen-character-create.webp" target="_blank" rel="noopener"><img src="assets/screens/screen-character-create.webp" alt="The Haven character creation screen" loading="lazy"></a>
+    <a class="screen-item" href="assets/screens/screen-winter.webp" target="_blank" rel="noopener"><img src="assets/screens/screen-winter.webp" alt="A seasonal winter event in Haven" loading="lazy"></a>
   </div>
 </section>
 
