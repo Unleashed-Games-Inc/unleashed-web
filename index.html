@@ -736,6 +736,175 @@
     line-height: 1.6;
   }
 
+  /* ---- CLASSES ---- */
+  .classes-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+  }
+
+  .class-card {
+    position: relative;
+    background: var(--dark-card);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 4px;
+    padding: 34px 24px 30px;
+    text-align: center;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .class-card:hover {
+    border-color: rgba(212, 166, 73, 0.3);
+    transform: translateY(-2px);
+  }
+
+  .class-card.coming-soon { opacity: 0.8; }
+
+  .class-portrait {
+    width: 112px;
+    height: 112px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 28%, rgba(212, 166, 73, 0.22), rgba(26, 26, 37, 0.9));
+    border: 2px solid rgba(212, 166, 73, 0.35);
+    box-shadow: 0 0 0 4px rgba(212, 166, 73, 0.06), 0 10px 24px rgba(0, 0, 0, 0.35);
+  }
+
+  .class-portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+
+  .class-portrait-locked {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 50% 35%, rgba(212, 166, 73, 0.12), rgba(26, 26, 37, 0.95));
+  }
+
+  .class-portrait-locked svg {
+    width: 46px;
+    height: 46px;
+    color: var(--gold-light);
+    opacity: 0.85;
+  }
+
+  .class-card h3 {
+    font-family: 'Trajan Pro', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+
+  .class-role {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .class-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .class-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--dark-bg);
+    background: var(--gold);
+    padding: 3px 9px;
+    border-radius: 20px;
+  }
+
+  /* ---- GAME LOOP ---- */
+  .loop-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 48px;
+  }
+
+  .loop-step {
+    position: relative;
+    background: var(--dark-card);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 4px;
+    padding: 28px 24px 30px;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .loop-step:hover {
+    border-color: rgba(212, 166, 73, 0.3);
+    transform: translateY(-2px);
+  }
+
+  .loop-step::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    opacity: 0.6;
+  }
+
+  .loop-num {
+    font-family: 'Trajan Pro', serif;
+    font-size: 48px;
+    line-height: 1;
+    font-weight: 700;
+    color: rgba(212, 166, 73, 0.22);
+    margin-bottom: 12px;
+  }
+
+  .loop-step h3 {
+    font-family: 'Trajan Pro', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+
+  .loop-step p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .loop-cycle {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    color: var(--gold);
+    opacity: 0.9;
+    font-style: italic;
+  }
+
+  .loop-cycle-icon {
+    font-style: normal;
+    font-size: 16px;
+    vertical-align: -1px;
+    margin-right: 5px;
+  }
+
   /* ---- PLAYTESTS ---- */
   .playtests-section {
     position: relative;
@@ -1390,6 +1559,10 @@
 
     .features-grid { grid-template-columns: repeat(2, 1fr); }
 
+    .classes-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .loop-grid { grid-template-columns: repeat(2, 1fr); }
+
     .playtests-layout { grid-template-columns: 1fr; }
 
     .playtest-featured { grid-row: auto; }
@@ -1405,6 +1578,10 @@
     .signup-form button { width: 100%; }
 
     .features-grid { grid-template-columns: 1fr; }
+
+    .classes-grid { grid-template-columns: 1fr; }
+
+    .loop-grid { grid-template-columns: 1fr; }
 
     .hero-description { font-size: 16px; }
 
@@ -1432,6 +1609,7 @@
   <ul class="nav-links" id="nav-links">
     <li><a href="#game">Game</a></li>
     <li><a href="#about">About</a></li>
+    <li><a href="#classes">Classes</a></li>
     <li><a href="#playtests">Videos</a></li>
     <li><a href="#signup-bottom">Sign Up</a></li>
   </ul>
@@ -1538,6 +1716,80 @@
       <h3>Every Platform, One World</h3>
       <p>PC, Mac, Switch, Xbox, PlayStation, iOS, Android. Dad's on console, the kids are on tablets, you're on PC. Same world. Same adventure. Your progress persists when you log off.</p>
     </div>
+  </div>
+</section>
+
+<!-- GAME LOOP -->
+<section id="loop">
+  <p class="section-label">How You Play</p>
+  <h2 class="section-title">The shadow holds many secrets</h2>
+  <p class="section-body">Beyond the lantern-light, the world lies broken and waiting. Every ruin, every silent grove, every soul lost to the dark is hiding something worth finding. Haven is a loop you'll never want to leave &mdash; venture out, bring the light home, and gather the friends who'll carry you through what's coming.</p>
+  <div class="loop-grid">
+
+    <div class="loop-step">
+      <div class="loop-num">01</div>
+      <h3>Explore the Dark</h3>
+      <p>Venture past the safety of the village into a fractured, beautiful world. Search its ruins and wilds for the resources, relics, and lost souls the shadow has swallowed &mdash; the deeper you go, the greater the reward.</p>
+    </div>
+
+    <div class="loop-step">
+      <div class="loop-num">02</div>
+      <h3>Bring It Home</h3>
+      <p>Carry everything you find back to the village. Rebuild it, grow it, and light it &mdash; because clearing out monsters never lasts, and the only place that stays safe is the one you build together.</p>
+    </div>
+
+    <div class="loop-step">
+      <div class="loop-num">03</div>
+      <h3>Find Your Friends</h3>
+      <p>You were never meant to do this alone. Rescue the lost, free the corrupted, and turn yesterday's enemies into today's allies. Every friend you make along the way makes your whole party stronger.</p>
+    </div>
+
+    <div class="loop-step">
+      <div class="loop-num">04</div>
+      <h3>Face What You Can't Alone</h3>
+      <p>Some secrets are guarded by things no single hero can stand against. When the dark pushes back hardest, you'll need a full party at your side &mdash; and all the trust you built getting there.</p>
+    </div>
+
+  </div>
+  <p class="loop-cycle"><span class="loop-cycle-icon">&#8635;</span> Rest, resupply, and venture out again &mdash; a world that always has more to give.</p>
+</section>
+
+<!-- CLASSES -->
+<section id="classes">
+  <p class="section-label">Choose Your Role</p>
+  <h2 class="section-title">Pick your part in the party</h2>
+  <p class="section-body">Haven's classes are built to need each other. Tank, protect, deal damage, and control the fight together &mdash; because cooperation isn't a bonus here, it's how you win.</p>
+  <div class="classes-grid">
+
+    <div class="class-card">
+      <div class="class-portrait"><img src="assets/classes/warrior.png" alt="The Warrior class in Haven" loading="lazy" width="256" height="256"></div>
+      <h3>Warrior</h3>
+      <p class="class-role">Tank &middot; Vanguard</p>
+      <p class="class-desc">Stand at the front and hold the line. Taunt the darkness onto yourself and shield your party in light, so your friends can do their work behind you.</p>
+    </div>
+
+    <div class="class-card">
+      <div class="class-portrait"><img src="assets/classes/mage.png" alt="The Mage class in Haven" loading="lazy" width="256" height="256"></div>
+      <h3>Mage</h3>
+      <p class="class-role">Damage &middot; Elementalist</p>
+      <p class="class-desc">Command fire and ice from range. Freeze, burn, and shatter corruption before it ever reaches your friends &mdash; raw light turned to devastating magic.</p>
+    </div>
+
+    <div class="class-card">
+      <div class="class-portrait"><img src="assets/classes/healer.png" alt="The Healer class in Haven" loading="lazy" width="256" height="256"></div>
+      <h3>Healer</h3>
+      <p class="class-role">Protector &middot; Support</p>
+      <p class="class-desc">Keep your party standing when the dark pushes back. Mend wounds, raise the fallen, and wrap your friends in Shielding Light &mdash; because no one lights the dark alone.</p>
+    </div>
+
+    <div class="class-card coming-soon">
+      <span class="class-badge">Coming Soon</span>
+      <div class="class-portrait"><img src="assets/classes/ranger.png" alt="The Ranger class in Haven" loading="lazy" width="360" height="360"></div>
+      <h3>Ranger</h3>
+      <p class="class-role">Control &middot; Hunter</p>
+      <p class="class-desc">Master of the battlefield. Mark your prey, lay snares, and vanish into the treeline, controlling every fight from the edges. The Ranger joins Haven soon.</p>
+    </div>
+
   </div>
 </section>
 
