@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://unleashed-games-inc.github.io/unleashed-web/sitemap.xml

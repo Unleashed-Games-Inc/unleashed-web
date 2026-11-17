@@ -9,15 +9,50 @@
 <!-- Open Graph / social sharing -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Unleashed Games">
-<meta property="og:title" content="Haven — Forge Friendships to Save the World">
+<meta property="og:title" content="Haven — A Co-op RPG for Families & Friends">
 <meta property="og:description" content="A cross-platform co-op RPG for families and friends. Explore a fractured fantasy world, rescue the lost, and build something worth protecting.">
-<meta property="og:image" content="https://framerusercontent.com/images/yHzg7mePo7J9KMBjWn92DMbpbfE.jpg">
-<meta property="og:url" content="https://unleashedgames.com/">
+<meta property="og:image" content="https://unleashed-games-inc.github.io/unleashed-web/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Haven key art — three heroes facing the dark, with the Haven logo.">
+<meta property="og:url" content="https://unleashed-games-inc.github.io/unleashed-web/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Haven — Forge Friendships to Save the World">
+<meta name="twitter:site" content="@UnleashedGames">
+<meta name="twitter:title" content="Haven — A Co-op RPG for Families & Friends">
 <meta name="twitter:description" content="A cross-platform co-op RPG for families and friends. Rescue, build, and explore together.">
-<meta name="twitter:image" content="https://framerusercontent.com/images/yHzg7mePo7J9KMBjWn92DMbpbfE.jpg">
+<meta name="twitter:image" content="https://unleashed-games-inc.github.io/unleashed-web/assets/og-image.jpg">
 <meta name="theme-color" content="#0A0A0F">
+<link rel="canonical" href="https://unleashed-games-inc.github.io/unleashed-web/">
+<link rel="preload" as="image" href="assets/hero-keyart.webp" fetchpriority="high">
+
+<!-- Structured data: VideoGame -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "name": "Haven",
+  "description": "Haven is a cross-platform co-op RPG for families and friends. Explore a fractured fantasy world, rescue the lost, and build something worth protecting.",
+  "url": "https://unleashed-games-inc.github.io/unleashed-web/",
+  "image": "https://unleashed-games-inc.github.io/unleashed-web/assets/og-image.jpg",
+  "genre": ["Role-playing game", "Cooperative", "Fantasy"],
+  "playMode": "CoOp",
+  "gamePlatform": ["PC", "macOS", "Nintendo Switch", "Xbox", "PlayStation", "iOS", "Android"],
+  "applicationCategory": "Game",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Unleashed Games",
+    "url": "https://unleashed-games-inc.github.io/unleashed-web/"
+  },
+  "trailer": {
+    "@type": "VideoObject",
+    "name": "Haven — Official Trailer",
+    "description": "The official trailer for Haven, a co-op RPG for families and friends.",
+    "thumbnailUrl": "https://i.ytimg.com/vi/lkcwBdYmM0o/hqdefault.jpg",
+    "uploadDate": "2026-01-01",
+    "embedUrl": "https://www.youtube.com/embed/lkcwBdYmM0o"
+  }
+}
+</script>
 
 <!-- Favicon (inline SVG monogram; drop a favicon.ico alongside index.html to override) -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230A0A0F'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='42' font-weight='700' fill='%23D4A649' text-anchor='middle'%3EU%3C/text%3E%3C/svg%3E">
@@ -82,6 +117,19 @@
     color: var(--text-primary);
     line-height: 1.6;
     overflow-x: hidden;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   /* ---- NAV ---- */
@@ -1635,6 +1683,8 @@
   </button>
 </nav>
 
+<main>
+
 <!-- HERO -->
 <section class="hero" id="game">
   <span id="top"></span>
@@ -1644,6 +1694,7 @@
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
+    <h1 class="visually-hidden">Haven — a cross-platform co-op RPG for families and friends, from Unleashed Games</h1>
     <div class="hero-credentials">
       <p class="hero-credentials-label">From developers of</p>
       <div class="hero-logo-strip">
@@ -1807,7 +1858,7 @@
         <img src="assets/screens/screen-ability.webp" alt="A mage casting an ability in the desert" loading="lazy">
         <img src="assets/screens/screen-planter.webp" alt="Tending a glowing planter in a Haven village" loading="lazy">
         <img src="assets/screens/screen-winter.webp" alt="A seasonal winter event in Haven" loading="lazy">
-        <img src="assets/screens/screen-classes.webp" alt="Choosing a character class in Haven" loading="lazy">
+        <img src="assets/screens/screen-charselect.webp" alt="The Haven character select screen, with Warrior, Mage, Healer, and Ranger" loading="lazy">
         <img src="assets/screens/screen-character-create.webp" alt="The Haven character creation screen" loading="lazy">
       </div>
       <button class="carousel-btn prev" type="button" aria-label="Previous screenshot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
@@ -1853,6 +1904,8 @@
   </div>
   <a href="https://play.immutable.com/games/haven/" class="cta-primary" target="_blank" rel="noopener">Become a Founding Player</a>
 </div>
+
+</main>
 
 <!-- FOOTER -->
 <footer>
