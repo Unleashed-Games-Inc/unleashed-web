@@ -186,6 +186,7 @@
   .hero {
     position: relative;
     min-height: 100vh;
+    max-width: none;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -196,8 +197,19 @@
   .hero-bg {
     position: absolute;
     inset: 0;
-    background: url('https://framerusercontent.com/images/yHzg7mePo7J9KMBjWn92DMbpbfE.jpg') center top / cover no-repeat;
   }
+
+  .hero-slide {
+    position: absolute;
+    inset: 0;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+  }
+
+  .hero-slide.active { opacity: 1; }
 
   .hero-overlay {
     position: absolute;
@@ -1398,11 +1410,14 @@
 <!-- HERO -->
 <section class="hero" id="game">
   <span id="top"></span>
-  <div class="hero-bg"></div>
+  <div class="hero-bg">
+    <div class="hero-slide active" style="background-image: url('assets/hero-keyart.webp');"></div>
+    <div class="hero-slide" style="background-image: url('assets/hero-lanterns.webp');"></div>
+  </div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <div class="hero-credentials">
-      <p class="hero-credentials-label">From the developers of</p>
+      <p class="hero-credentials-label">From developers of</p>
       <div class="hero-logo-strip">
         <!-- WoW & RuneScape: re-drop files as assets/logo-wow.png and assets/logo-runescape.png; hidden until present -->
         <img src="assets/logo-wow.png" alt="World of Warcraft" class="game-logo" onerror="this.style.display='none'">
@@ -1581,6 +1596,18 @@
         toggle.setAttribute('aria-expanded', 'false');
       });
     });
+  })();
+
+  // Hero background — slow crossfade cycle between the key art and the game shot.
+  (function () {
+    var slides = document.querySelectorAll('.hero-bg .hero-slide');
+    if (slides.length < 2) return;
+    var i = 0;
+    setInterval(function () {
+      slides[i].classList.remove('active');
+      i = (i + 1) % slides.length;
+      slides[i].classList.add('active');
+    }, 7000);
   })();
 
   // Screenshots carousel — prev/next, dots, keyboard arrows.
