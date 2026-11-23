@@ -318,6 +318,14 @@
     background-size: 106% auto;
   }
 
+  .hero-diorama .fx-fireflies {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
   .hero-diorama .diorama-vignette {
     position: absolute;
     inset: 0;
@@ -1938,6 +1946,7 @@
       <div class="plane plane-2nd" data-depth="0.28" data-intro="56"></div>
       <div class="plane plane-forest" data-depth="0.52" data-intro="78"></div>
       <div class="plane plane-tree2" data-depth="0.78" data-intro="135"></div>
+      <canvas class="fx-fireflies"></canvas>
       <div class="plane plane-tree" data-depth="0.96" data-intro="-110"></div>
       <div class="plane plane-foreground" data-depth="1.15" data-intro="95"></div>
       <div class="diorama-vignette"></div>
@@ -2252,9 +2261,247 @@
     var wasActive = diorama.classList.contains('active');
     new MutationObserver(function () {
       var isActive = diorama.classList.contains('active');
-      if (isActive && !wasActive) playIntro();
+      if (isActive && !wasActive) {
+        playIntro();
+        if (fireflies) fireflies.start();
+      }
+      if (!isActive && wasActive && fireflies) fireflies.stopSoon();
       wasActive = isActive;
     }).observe(diorama, { attributes: true, attributeFilter: ['class'] });
+
+    // Fireflies: the console's LanternBugs layer on a canvas between the near trees —
+    // warm gold motes with noise-driven drift, a pulse, and cursor repulsion, drawn
+    // additively from pre-rendered glow sprites. Runs only while this slide is up.
+    var fireflies = (function () {
+      var canvas = diorama.querySelector('.fx-fireflies');
+      if (!canvas || reduced) return null;
+      var ctx = canvas.getContext('2d');
+      if (!ctx) return null;
+
+      function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
+      function lerp(a, b, t) { return a + (b - a) * t; }
+      function rand(lo, hi) { return lo + Math.random() * (hi - lo); }
+      function hash1(n) {
+        var x = Math.imul(n ^ 0x45d9f3b, 0x45d9f3b) >>> 0;
+        return (x / 4294967295) * 2 - 1;
+      }
+      function noise1D(v) {
+        var cell = Math.floor(v);
+        var t = v - cell;
+        var fade = t * t * t * (t * (t * 6 - 15) + 10);
+        return (1 - fade) * hash1(cell) * t + fade * hash1(cell + 1) * (t - 1);
+      }
+
+      // Life-cycle alpha keys from the console layer (fade in, hold, fade out).
+      var ALPHA = [[0, 0], [0.156, 1], [0.538, 0.92], [0.844, 1], [1, 0]];
+      function sampleAlpha(t) {
+        if (t <= 0) return 0;
+        for (var i = 1; i < ALPHA.length; i++) {
+          if (t <= ALPHA[i][0]) {
+            var span = ALPHA[i][0] - ALPHA[i - 1][0] || 1;
+            return lerp(ALPHA[i - 1][1], ALPHA[i][1], (t - ALPHA[i - 1][0]) / span);
+          }
+        }
+        return 0;
+      }
+
+      // Pre-rendered additive glow sprites: a soft halo and a hot core.
+      var sprites = {};
+      function sprite(r, g, b, mode) {
+        var key = Math.round(r / 6) + ',' + Math.round(g / 6) + ',' + Math.round(b / 6) + ',' + mode;
+        if (sprites[key]) return sprites[key];
+        var size = 64;
+        var half = 32;
+        var c = document.createElement('canvas');
+        c.width = size;
+        c.height = size;
+        var sctx = c.getContext('2d');
+        if (!sctx) return null;
+        var grad = sctx.createRadialGradient(half, half, 0, half, half, half);
+        if (mode === 'soft') {
+          grad.addColorStop(0, 'rgba(' + Math.min(255, r + 60) + ',' + Math.min(255, g + 60) + ',' + Math.min(255, b + 60) + ',1)');
+          grad.addColorStop(0.22, 'rgba(' + r + ',' + g + ',' + b + ',0.72)');
+          grad.addColorStop(0.55, 'rgba(' + r + ',' + g + ',' + b + ',0.2)');
+          grad.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)');
+        } else {
+          grad.addColorStop(0, 'rgba(255,255,255,1)');
+          grad.addColorStop(0.14, 'rgba(' + Math.min(255, r + 80) + ',' + Math.min(255, g + 80) + ',' + Math.min(255, b + 80) + ',0.95)');
+          grad.addColorStop(0.38, 'rgba(' + r + ',' + g + ',' + b + ',0.45)');
+          grad.addColorStop(0.72, 'rgba(' + r + ',' + g + ',' + b + ',0.09)');
+          grad.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)');
+        }
+        sctx.fillStyle = grad;
+        sctx.fillRect(0, 0, size, size);
+        sprites[key] = c;
+        return c;
+      }
+
+      function dot(r, g, b, mode, px, py, radius, alpha) {
+        var sp = sprite(Math.round(r), Math.round(g), Math.round(b), mode);
+        if (!sp) return;
+        ctx.globalAlpha = clamp(alpha, 0, 1);
+        ctx.drawImage(sp, px - radius, py - radius, radius * 2, radius * 2);
+      }
+
+      var BOUNDS = { x0: 0.02, x1: 0.98, y0: 0.42, y1: 0.96 };
+      var BASE_COUNT = 42;
+      var OPACITY = 0.96;
+      var SCALE = 1.05;
+      var bugs = [];
+      var activeCount = BASE_COUNT;
+
+      function spawn(prewarm) {
+        var life = rand(5.2, 7.8);
+        return {
+          nx: rand(BOUNDS.x0, BOUNDS.x1),
+          ny: rand(BOUNDS.y0, BOUNDS.y1),
+          vx: 0,
+          vy: 0,
+          age: prewarm ? rand(0, life) : 0,
+          life: life,
+          size: rand(6, 16) * SCALE,
+          seed: rand(0, 999),
+          phase: rand(0, Math.PI * 2),
+          pulseSpeed: rand(1.4, 2.7),
+          depth: rand(0.55, 1.3)
+        };
+      }
+      for (var n = 0; n < BASE_COUNT; n++) bugs.push(spawn(true));
+
+      var W = 0;
+      var H = 0;
+      var rect = { left: 0, top: 0, width: 0, height: 0 };
+      function measure() {
+        rect = canvas.getBoundingClientRect();
+        W = Math.round(rect.width);
+        H = Math.round(rect.height);
+        activeCount = Math.max(1, Math.round(BASE_COUNT * (W > 0 && W < 640 ? 0.5 : 1)));
+        var dpr = clamp(window.devicePixelRatio || 1, 1, 2);
+        var pw = Math.round(W * dpr);
+        var ph = Math.round(H * dpr);
+        if (canvas.width !== pw || canvas.height !== ph) {
+          canvas.width = pw;
+          canvas.height = ph;
+        }
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      var mouse = { nx: 0.5, ny: 0.5, active: false };
+      window.addEventListener('pointermove', function (ev) {
+        if (rect.width > 0 && rect.height > 0) {
+          mouse.nx = clamp((ev.clientX - rect.left) / rect.width, 0, 1);
+          mouse.ny = clamp((ev.clientY - rect.top) / rect.height, 0, 1);
+          mouse.active = true;
+        }
+      }, { passive: true });
+      document.addEventListener('mouseleave', function () { mouse.active = false; });
+
+      function update(dt, time) {
+        var damp = Math.pow(0.28, dt);
+        for (var i = 0; i < activeCount; i++) {
+          var b = bugs[i];
+          b.age += dt;
+          if (b.age >= b.life) {
+            bugs[i] = spawn(false);
+            continue;
+          }
+          var fx = noise1D(time * 0.65 + b.seed) * 0.035 * b.depth;
+          var fy = noise1D(time * 0.58 + b.seed + 37.7) * 0.028 * b.depth - 0.004;
+          if (mouse.active) {
+            var dx = b.nx - mouse.nx;
+            var dy = b.ny - mouse.ny;
+            var distSq = dx * dx + dy * dy;
+            if (distSq < 0.018 && distSq > 0.00001) {
+              var dist = Math.sqrt(distSq);
+              var push = (1 - dist / 0.135) * 0.11;
+              b.vx += (dx / dist) * push * dt;
+              b.vy += (dy / dist) * push * dt - 0.02 * dt;
+            }
+          }
+          b.vx *= damp;
+          b.vy *= damp;
+          b.nx += (fx + b.vx) * dt;
+          b.ny += (fy + b.vy) * dt;
+          if (b.nx < BOUNDS.x0 - 0.05) b.nx = BOUNDS.x1 + 0.02;
+          if (b.nx > BOUNDS.x1 + 0.05) b.nx = BOUNDS.x0 - 0.02;
+          if (b.ny < BOUNDS.y0 - 0.05) b.ny = BOUNDS.y1;
+          if (b.ny > BOUNDS.y1 + 0.05) b.ny = BOUNDS.y0;
+        }
+      }
+
+      function draw(time) {
+        ctx.clearRect(0, 0, W, H);
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        for (var i = 0; i < activeCount; i++) {
+          var b = bugs[i];
+          var t = b.age / b.life;
+          var pulse = 0.62 + 0.38 * Math.sin(time * b.pulseSpeed + b.phase);
+          var a = sampleAlpha(t) * pulse * OPACITY;
+          if (a <= 0.01) continue;
+          // gold -> amber over each firefly's life
+          var g = lerp(251, 192, t);
+          var bl = lerp(95, 85, t);
+          var px = b.nx * W;
+          var py = b.ny * H;
+          var sz = b.size * b.depth * (0.88 + 0.25 * pulse);
+          dot(255, g, bl, 'soft', px, py, sz * 2.1, a * 0.42);
+          dot(255, g, bl, 'core', px, py, sz * 0.72, a);
+        }
+        ctx.restore();
+      }
+
+      var rafId = 0;
+      var lastTs = 0;
+      var elapsed = 0;
+      var stopTimer = null;
+      function tick(ts) {
+        rafId = requestAnimationFrame(tick);
+        if (lastTs === 0) lastTs = ts;
+        var dt = clamp((ts - lastTs) / 1000, 0.001, 0.05);
+        lastTs = ts;
+        elapsed += dt;
+        if (document.hidden || W <= 0) return;
+        update(dt, elapsed);
+        draw(elapsed);
+      }
+
+      // Pre-simulate ~1.4s so the swarm is settled before the slide first fades up.
+      for (var pre = 0; pre < 36; pre++) {
+        elapsed += 0.04;
+        update(0.04, elapsed);
+      }
+
+      window.addEventListener('resize', function () { if (rafId) measure(); }, { passive: true });
+      window.addEventListener('scroll', function () {
+        if (rafId) rect = canvas.getBoundingClientRect(); // keep cursor mapping honest
+      }, { passive: true });
+
+      return {
+        start: function () {
+          if (stopTimer) {
+            clearTimeout(stopTimer);
+            stopTimer = null;
+          }
+          if (!rafId) {
+            measure();
+            lastTs = 0;
+            rafId = requestAnimationFrame(tick);
+          }
+        },
+        stopSoon: function () {
+          // let the slideshow's 1.5s crossfade finish before pausing the loop
+          if (stopTimer) clearTimeout(stopTimer);
+          stopTimer = setTimeout(function () {
+            stopTimer = null;
+            if (rafId) {
+              cancelAnimationFrame(rafId);
+              rafId = 0;
+            }
+          }, 1600);
+        }
+      };
+    })();
 
     if (reduced) return;
     var hero = document.querySelector('.hero');
