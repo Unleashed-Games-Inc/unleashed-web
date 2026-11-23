@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Haven — A Co-op RPG for Families & Friends | Unleashed Games</title>
-<meta name="description" content="Haven is a cross-platform co-op RPG for families and friends. Explore a fractured fantasy world, rescue the lost, and build something worth protecting. Coming to PC, Mac, Switch, Xbox, PlayStation, iOS & Android.">
+<meta name="description" content="Haven is a cross-platform co-op RPG for families and friends. Explore a fractured fantasy world, rescue the lost, and build something worth protecting. Playable now on PC, Mac & iOS — coming soon to Xbox, PlayStation, Switch & Android.">
 
 <!-- Open Graph / social sharing -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Unleashed Games">
 <meta property="og:title" content="Haven — A Co-op RPG for Families & Friends">
-<meta property="og:description" content="A cross-platform co-op RPG for families and friends. Explore a fractured fantasy world, rescue the lost, and build something worth protecting.">
+<meta property="og:description" content="A cross-platform co-op RPG for families and friends. Playable now on PC, Mac & iOS. Explore a fractured fantasy world, rescue the lost, and build something worth protecting.">
 <meta property="og:image" content="https://unleashedgames.com/assets/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -259,6 +259,86 @@
 
   .hero-slide.active { opacity: 1; }
 
+  /* ---- TWILIGHT CLEARING DIORAMA SLIDE ----
+     Ported from the Haven console login: depth-stacked painted planes.
+     --py carries the scroll parallax, --intro-y the entrance glide. */
+  .hero-diorama {
+    overflow: hidden;
+    background: var(--dark-bg);
+  }
+
+  .hero-diorama .plane {
+    position: absolute;
+    inset: -3.5%;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transform: translate3d(0, calc(var(--py, 0px) + var(--intro-y, 0px)), 0) scale(1.04);
+    transition: transform 0.08s linear;
+    will-change: transform;
+  }
+
+  .hero-diorama.intro-reset .plane { transition: none; }
+
+  .hero-diorama.intro-anim .plane {
+    transition: transform 2.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .hero-diorama .plane-sky {
+    background-image: url('assets/diorama/haven-sky.webp');
+    background-position: 62% 28%;
+  }
+
+  .hero-diorama .plane-2nd {
+    background-image: url('assets/diorama/haven-2nd.webp');
+    background-position: center bottom;
+  }
+
+  .hero-diorama .plane-forest {
+    background-image: url('assets/diorama/haven-forest.webp');
+    background-position: center bottom;
+  }
+
+  .hero-diorama .plane-tree2 {
+    background-image: url('assets/diorama/haven-tree2.webp');
+    background-position: left bottom;
+    opacity: 0.94;
+  }
+
+  .hero-diorama .plane-tree {
+    background-image: url('assets/diorama/haven-tree.webp');
+    background-position: center top;
+    transform-origin: top center;
+    animation: canopySway 11s ease-in-out infinite;
+  }
+
+  .hero-diorama .plane-foreground {
+    background-image: url('assets/diorama/haven-foreground.webp');
+    background-position: center bottom;
+    background-size: 106% auto;
+  }
+
+  .hero-diorama .diorama-vignette {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 62% at 50% 48%, transparent 32%, rgba(10, 10, 15, 0.52) 100%),
+      linear-gradient(180deg, rgba(10, 10, 15, 0.36) 0%, transparent 24%, transparent 72%, rgba(10, 10, 15, 0.8) 100%);
+  }
+
+  @keyframes canopySway {
+    0%, 100% { rotate: 0deg; }
+    50% { rotate: 0.45deg; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-diorama .plane,
+    .hero-diorama.intro-reset .plane,
+    .hero-diorama.intro-anim .plane { transition: none; }
+
+    .hero-diorama .plane-tree { animation: none; }
+  }
+
   .hero-overlay {
     position: absolute;
     inset: 0;
@@ -351,6 +431,11 @@
   }
 
   .hero-platforms {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 14px;
     font-size: 13px;
     color: rgba(232, 230, 224, 0.7);
     letter-spacing: 0.5px;
@@ -358,7 +443,36 @@
     text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85);
   }
 
+  .hero-platforms .platforms-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-right: 6px;
+  }
+
+  .hero-platforms .platforms-now {
+    color: rgba(232, 230, 224, 0.92);
+  }
+
+  .hero-platforms .platforms-soon {
+    color: rgba(232, 230, 224, 0.55);
+  }
+
+  .hero-platforms .platforms-soon .platforms-label {
+    color: rgba(212, 166, 73, 0.55);
+  }
+
+  .hero-platforms .platforms-divider {
+    width: 1px;
+    height: 14px;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
   .cta-primary {
+    position: relative;
+    overflow: hidden;
     display: inline-block;
     background: linear-gradient(135deg, var(--gold-dark), var(--gold));
     color: #0A0A0F;
@@ -380,6 +494,25 @@
     background: linear-gradient(135deg, var(--gold), var(--gold-light));
     box-shadow: 0 6px 32px rgba(212, 166, 73, 0.5);
     transform: translateY(-1px);
+  }
+
+  /* Sheen sweep on hover, from the Haven console login button */
+  .cta-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 20%, rgba(255, 255, 255, 0.35) 50%, transparent 80%);
+    transform: translateX(-120%);
+    transition: transform 0.65s ease;
+    pointer-events: none;
+  }
+
+  .cta-primary:hover::before {
+    transform: translateX(120%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta-primary::before { display: none; }
   }
 
   .hero-scroll-hint {
@@ -515,12 +648,50 @@
   }
 
   .section-title {
+    position: relative;
     font-family: 'Trajan Pro', serif;
     font-size: 36px;
     font-weight: 600;
     color: var(--text-primary);
     margin-bottom: 20px;
+    padding-bottom: 16px;
     line-height: 1.2;
+  }
+
+  /* Gold hairline + glowing diamond under titles, from the Haven console login */
+  .section-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 220px;
+    max-width: 70%;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(212, 166, 73, 0.55), transparent);
+  }
+
+  .section-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2.5px;
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    box-shadow: 0 0 10px rgba(212, 166, 73, 0.7);
+  }
+
+  /* Centered sections get the symmetric version of the rule */
+  .cta-section .section-title::after {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 260px;
+    background: linear-gradient(90deg, transparent, rgba(212, 166, 73, 0.55) 50%, transparent);
+  }
+
+  .cta-section .section-title::before {
+    left: calc(50% - 3px);
   }
 
   .section-body {
@@ -867,8 +1038,9 @@
 
   .class-badge {
     position: absolute;
-    top: 12px;
-    right: 12px;
+    top: 16px;
+    right: 16px;
+    z-index: 1;
     font-size: 9px;
     font-weight: 700;
     letter-spacing: 1.2px;
@@ -951,6 +1123,71 @@
     font-size: 16px;
     vertical-align: -1px;
     margin-right: 5px;
+  }
+
+  /* ---- SANCTUM CARDS ----
+     Box treatment shared with the Haven console login ("sanctuary card"):
+     brass-tinted border, inset gold glow, and four gold corner brackets. */
+  .feature-card,
+  .class-card,
+  .loop-step {
+    position: relative;
+    background: linear-gradient(180deg, var(--dark-surface) 0%, var(--dark-card) 100%);
+    border: 1px solid rgba(212, 166, 73, 0.22);
+    border-radius: 8px;
+    box-shadow:
+      0 10px 40px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(212, 166, 73, 0.14),
+      inset 0 0 40px rgba(212, 166, 73, 0.04);
+  }
+
+  .feature-card:hover,
+  .class-card:hover,
+  .loop-step:hover {
+    border-color: rgba(212, 166, 73, 0.45);
+    box-shadow:
+      0 12px 44px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(212, 166, 73, 0.2),
+      inset 0 0 40px rgba(212, 166, 73, 0.07);
+  }
+
+  /* The four corner brackets, painted by one overlay so the markup stays unchanged */
+  .feature-card::after,
+  .class-card::after,
+  .loop-step::after {
+    --bracket: rgba(212, 166, 73, 0.6);
+    content: '';
+    position: absolute;
+    inset: 8px;
+    pointer-events: none;
+    background-image:
+      linear-gradient(var(--bracket), var(--bracket)),
+      linear-gradient(var(--bracket), var(--bracket)),
+      linear-gradient(var(--bracket), var(--bracket)),
+      linear-gradient(var(--bracket), var(--bracket)),
+      linear-gradient(var(--bracket), var(--bracket)),
+      linear-gradient(var(--bracket), var(--bracket)),
+      linear-gradient(var(--bracket), var(--bracket)),
+      linear-gradient(var(--bracket), var(--bracket));
+    background-repeat: no-repeat;
+    background-size:
+      14px 1.5px, 1.5px 14px,
+      14px 1.5px, 1.5px 14px,
+      14px 1.5px, 1.5px 14px,
+      14px 1.5px, 1.5px 14px;
+    background-position:
+      left top, left top,
+      right top, right top,
+      left bottom, left bottom,
+      right bottom, right bottom;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+  }
+
+  .feature-card:hover::after,
+  .class-card:hover::after,
+  .loop-step:hover::after {
+    opacity: 1;
   }
 
   /* ---- PLAYTESTS ---- */
@@ -1278,7 +1515,7 @@
     border-radius: 6px;
     overflow: hidden;
     background: var(--dark-card);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(212, 166, 73, 0.16);
     transition: border-color 0.3s, transform 0.3s;
   }
 
@@ -1635,6 +1872,8 @@
 
     .hero-platforms { font-size: 12px; }
 
+    .hero-platforms .platforms-divider { display: none; }
+
     .cta-primary { padding: 15px 32px; font-size: 14px; letter-spacing: 1.5px; }
 
     .section-title { font-size: 26px; }
@@ -1692,6 +1931,17 @@
     <div class="hero-slide active" style="background-image: url('assets/hero-keyart.webp');"></div>
     <div class="hero-slide" style="background-image: url('assets/hero-castle.webp');"></div>
     <div class="hero-slide" style="background-image: url('assets/hero-lanterns.webp');"></div>
+    <!-- Twilight Clearing diorama, shared with the Haven console login: six painted
+         depth planes that glide in when the slide rotates up and drift apart on scroll. -->
+    <div class="hero-slide hero-diorama" aria-hidden="true">
+      <div class="plane plane-sky" data-depth="0.10" data-intro="22"></div>
+      <div class="plane plane-2nd" data-depth="0.28" data-intro="56"></div>
+      <div class="plane plane-forest" data-depth="0.52" data-intro="78"></div>
+      <div class="plane plane-tree2" data-depth="0.78" data-intro="135"></div>
+      <div class="plane plane-tree" data-depth="0.96" data-intro="-110"></div>
+      <div class="plane plane-foreground" data-depth="1.15" data-intro="95"></div>
+      <div class="diorama-vignette"></div>
+    </div>
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
@@ -1710,7 +1960,11 @@
     <p class="hero-description">
       A cross-platform co-op RPG for families and friends. Explore a fractured fantasy world, rescue the lost, and build something worth protecting.
     </p>
-    <p class="hero-platforms">PC &middot; Mac &middot; Switch &middot; Xbox &middot; PlayStation &middot; iOS &middot; Android</p>
+    <p class="hero-platforms">
+      <span class="platforms-now"><span class="platforms-label">Playable now</span> PC &middot; Mac &middot; iOS</span>
+      <span class="platforms-divider" aria-hidden="true"></span>
+      <span class="platforms-soon"><span class="platforms-label">Coming soon</span> Xbox &middot; PlayStation &middot; Switch &middot; Android</span>
+    </p>
     <a href="https://play.immutable.com/games/haven/" class="cta-primary" target="_blank" rel="noopener">Become a Founding Player</a>
   </div>
   <div class="hero-scroll-hint">Scroll</div>
@@ -1733,7 +1987,7 @@
         If you grew up raiding in EverQuest or WoW and wish you could share that feeling with your kids, your partner, or your friends across the country, Haven is built for you. Short sessions. Every platform. No toxicity by design.
       </p>
       <p class="section-body" style="margin-top: 16px; font-size: 13px; color: var(--gold); opacity: 0.8;">
-        Early Access 2027 &middot; Short, session-friendly play &middot; Family &amp; couples pricing
+        Now in private alpha &middot; Short, session-friendly play &middot; Family &amp; couples pricing
       </p>
       <a href="#playtests" class="stream-badge" style="text-decoration:none;">
         <span class="live-dot"></span>
@@ -1766,7 +2020,7 @@
     <div class="feature-card">
       <div class="feature-icon">&#x1F4F1;</div>
       <h3>Every Platform, One World</h3>
-      <p>PC, Mac, Switch, Xbox, PlayStation, iOS, Android. Dad's on console, the kids are on tablets, you're on PC. Same world. Same adventure. Your progress persists when you log off.</p>
+      <p>Playable now on PC, Mac, and iOS &mdash; with Xbox, PlayStation, Switch, and Android on the way. The kids are on tablets, you're on PC. Same world. Same adventure. Your progress persists when you log off.</p>
     </div>
   </div>
 </section>
@@ -1968,6 +2222,58 @@
       i = (i + 1) % slides.length;
       slides[i].classList.add('active');
     }, 7000);
+  })();
+
+  // Twilight Clearing diorama slide — the entrance glide plays each time the
+  // slideshow rotates it up, and scroll drives the depth parallax (deeper planes
+  // drift further), matching the Haven console login.
+  (function () {
+    var diorama = document.querySelector('.hero-diorama');
+    if (!diorama) return;
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var planes = diorama.querySelectorAll('.plane');
+
+    function playIntro() {
+      if (reduced) return;
+      diorama.classList.add('intro-reset');
+      for (var k = 0; k < planes.length; k++) {
+        planes[k].style.setProperty('--intro-y', (parseFloat(planes[k].getAttribute('data-intro')) || 0) + 'px');
+      }
+      void diorama.offsetWidth; // flush styles so the glide starts from the offsets
+      diorama.classList.remove('intro-reset');
+      diorama.classList.add('intro-anim');
+      for (var m = 0; m < planes.length; m++) {
+        planes[m].style.setProperty('--intro-y', '0px');
+      }
+      setTimeout(function () { diorama.classList.remove('intro-anim'); }, 2400);
+    }
+
+    // Watch for the slideshow handing this slide the active class.
+    var wasActive = diorama.classList.contains('active');
+    new MutationObserver(function () {
+      var isActive = diorama.classList.contains('active');
+      if (isActive && !wasActive) playIntro();
+      wasActive = isActive;
+    }).observe(diorama, { attributes: true, attributeFilter: ['class'] });
+
+    if (reduced) return;
+    var hero = document.querySelector('.hero');
+    var ticking = false;
+    function applyParallax() {
+      ticking = false;
+      var y = window.scrollY || window.pageYOffset || 0;
+      if (hero && y > hero.offsetHeight) return; // hero is off screen
+      for (var k = 0; k < planes.length; k++) {
+        var depth = parseFloat(planes[k].getAttribute('data-depth')) || 0;
+        planes[k].style.setProperty('--py', (y * depth * 0.18).toFixed(1) + 'px');
+      }
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(applyParallax);
+      }
+    }, { passive: true });
   })();
 
   // Screenshots carousel — auto-cycle, prev/next, dots, keyboard arrows.
